@@ -10,6 +10,7 @@ Se tiver o make e gcc na maquina, simplesmente faca um `make clean` , `make` e `
 
 ## Desenvolvido para o trabalho final da Disciplina de Estruturas de Dados 1
 Dupla do trabalho:
+    `Carolina Fernandes`
     `Guilherme Saito` 
     `Matheus Marques`
     
