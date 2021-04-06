@@ -17,7 +17,7 @@ typedef struct Spot
     double f;
     double g;
     double h;
-    Lista *vizinhos;
+    struct List *vizinhos;
     // valor booleano
     int anterior;
     int muro;

@@ -1,0 +1,1 @@
+gcc ./src/main.c ./src/lista.c ./src/AlgoritmoAStar.c -o exec
