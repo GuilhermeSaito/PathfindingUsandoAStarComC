@@ -9,10 +9,10 @@ Se tiver o make e gcc na maquina, simplesmente faca um `make clean` , `make` e `
 ---
 
 ## Desenvolvido para o trabalho final da Disciplina de Estruturas de Dados 1
-Dupla do trabalho:
-    `Carolina Fernandes`
-    `Guilherme Saito` 
-    `Matheus Marques`
+    Dupla do trabalho:
+        `Carolina Fernandes` -  [GitHub](https://github.com/Carolsouzaf)
+        `Guilherme Saito` -  [GitHub](https://github.com/GuilhermeSaito/)
+        `Matheus Marques   [GitHub](https://github.com/matheuscamarques)`
 
 ---
 
@@ -20,4 +20,3 @@ Dupla do trabalho:
     Testes:
         `Fazer arquivos de Testes em /testes/`
         `Fazer uma makeFile para os testes`
-    
