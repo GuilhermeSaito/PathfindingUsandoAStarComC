@@ -13,4 +13,11 @@ Dupla do trabalho:
     `Carolina Fernandes`
     `Guilherme Saito` 
     `Matheus Marques`
+
+---
+
+## Em Desenvolvimento
+    Testes:
+        `Fazer arquivos de Testes em /testes/`
+        `Fazer uma makeFile para os testes`
     
