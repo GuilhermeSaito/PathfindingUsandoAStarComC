@@ -20,7 +20,26 @@ Integrantes do trabalho:
 ---
 
 ## Em Desenvolvimento
-Testes/tarefas:
+Testes:
 
 1. Fazer arquivos de Testes em /testes/
 2. Fazer uma makeFile para os testes
+
+Programação: 
+
+1. Fazer Adicionar / Remover / Alterar / Criar em Lista Encadeada
+2. Fazer algum algoritmo de ordenação para a Lista Encadeada
+3. Fazer função para Desenhar Gri no terminal
+
+Relatório:
+
+1. Fazer resumo da teoria por trás do Algorimo A*
+2. Descrever metodologia de Desenvolvimento do projeto
+3. Escrever as estruturas utilizadas para solução do problema
+5. Revisão
+
+
+## Referencias
+1. [Algorimto A* Pathfinding em Javascript](https://github.com/matheuscamarques/pathfinding).
+2. [Explicação do Algoritmo A* (A Star)](https://www.youtube.com/watch?v=o5_mqZKhTvw)
+3. [Algoritmo A* (Algoritmo Pathfinding)](https://www.youtube.com/watch?v=SBcwxK70xIM)
