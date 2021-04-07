@@ -12,7 +12,7 @@ Se tiver o make e gcc na maquina, simplesmente faca um `make clean` , `make` e `
     Dupla do trabalho:
         `Carolina Fernandes` -  [GitHub](https://github.com/Carolsouzaf)
         `Guilherme Saito` -  [GitHub](https://github.com/GuilhermeSaito/)
-        `Matheus Marques   [GitHub](https://github.com/matheuscamarques)`
+        `Matheus Marques` -  [GitHub](https://github.com/matheuscamarques)
 
 ---
 
