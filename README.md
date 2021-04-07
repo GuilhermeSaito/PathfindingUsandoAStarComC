@@ -20,8 +20,7 @@ Integrantes do trabalho:
 ---
 
 ## Em Desenvolvimento
-Testes:
+Testes/tarefas:
 
-        `Fazer arquivos de Testes em /testes/`
-        
-        `Fazer uma makeFile para os testes`
+1. Fazer arquivos de Testes em /testes/
+2. Fazer uma makeFile para os testes
