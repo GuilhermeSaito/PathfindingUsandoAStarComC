@@ -10,15 +10,18 @@ Se tiver o make e gcc na maquina, simplesmente faca um `make clean` , `make` e `
 
 ## Desenvolvido para o trabalho final da Disciplina de Estruturas de Dados 1
 Integrantes do trabalho:
-Carolina Fernandes -  [GitHub](https://github.com/Carolsouzaf).
 
-Guilherme Saito -  [GitHub](https://github.com/GuilhermeSaito/).
+1. Carolina Fernandes -  [GitHub](https://github.com/Carolsouzaf).
 
-Matheus C Marques -  [GitHub](https://github.com/matheuscamarques).
+2. Guilherme Saito -  [GitHub](https://github.com/GuilhermeSaito/).
+
+3. Matheus C Marques -  [GitHub](https://github.com/matheuscamarques).
 
 ---
 
 ## Em Desenvolvimento
 Testes:
+
         `Fazer arquivos de Testes em /testes/`
+        
         `Fazer uma makeFile para os testes`
