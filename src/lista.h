@@ -19,7 +19,7 @@ typedef struct Spot
     double h;
     struct List *vizinhos;
     // valor booleano
-    int anterior;
+    struct Spot anterior;
     int muro;
 } Celula;
 
