@@ -18,6 +18,29 @@ double heuristic(Celula* a, Celula* b)
     return round(distancia((a->p), (b->p)));
 }
 
+void adicionarVizinhos(Celula *spot, Celula grid[][50],int colunas,int linhas)
+{
+    int i = spot->p.x;
+    int  j = spot->p.y;
+
+    if (i < colunas - 1) {
+        //spot.neighbors.push(grid[i + 1][j]);
+        inserir(spot->vizinhos,grid[i + 1][j].p);
+    }
+    if (i > 0) {
+        //spot.neighbors.push(grid[i - 1][j]);
+        inserir(spot->vizinhos,grid[i - 1][j].p);
+    }
+    if (j < linhas - 1) {
+        //spot.neighbors.push(grid[i][j + 1]);
+        inserir(spot->vizinhos,grid[i][j + 1].p);
+    }
+    if (j > 0) {
+        //spot.neighbors.push(grid[i][j - 1]);
+        inserir(spot->vizinhos,grid[i][j - 1].p);
+    }
+}
+
 int comparar(Celula a, Celula b)
 {
     if (a.f > b.f)

@@ -33,8 +33,11 @@ typedef struct List
 Lista *criar(void);
 Lista *inserir(Lista *lista, Ponto elem);
 Lista *remover(Lista *l, Ponto elem);
-Ponto procurarElementoF(Lista *l, double f);
-int maiorElementoF(Lista *l);
+Ponto procurarElementoF(Lista *l, Ponto f);
+
+int existe(Lista* l, Celula c);
+Celula procurarMenor(Lista* l);
+int menorElementoF(Lista *l);
 int tamanho(Lista *l);
 int vazio(Lista *l);
 void imprimir(Lista *lista);

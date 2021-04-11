@@ -15,7 +15,7 @@ Lista *inserir(Lista *lista, Ponto elem)
     novo->c.g = 0.0;
     novo->c.h = 0.0;
     novo->c.vizinhos = criar();
-    novo->c.anterior = 0;
+    novo->c.anterior = NULL;
     novo->c.muro = 0;
 
     novo->next = lista;
@@ -51,12 +51,12 @@ Lista *remover(Lista *l, Ponto elem)
     return l;
 }
 
-Ponto procurarElementoF(Lista *l, double f)
+Ponto procurarElementoF(Lista *l, Ponto f)
 {
     Lista *aux = l;
     while (aux != NULL)
     {
-        if (aux->c.f == f)
+        if (aux->c.p.x == f.x && aux->c.p.y == f.y)
             return aux->c.p;
         aux = aux->next;
     }
@@ -67,18 +67,50 @@ Ponto procurarElementoF(Lista *l, double f)
     return temp;
 }
 
-int maiorElementoF(Lista *l)
+int existe(Lista* l, Celula c)
+{
+    Lista* aux = l;
+    while (aux != NULL)
+    {
+        // Como nao da para compara uma celula com outra, vou compara os f, g, h
+        if ((aux->c.f == c.f) && (aux->c.g == c.g) && (aux->c.h == c.h))
+            return 1;
+        aux = aux->next;
+    }
+    return 0;
+}
+
+Celula procurarMenor(Lista* l)
 {
     Lista *aux = l;
-    double maior = aux->c.f;
+    double menorF = aux->c.f;
+    Celula menor = aux->c;
     aux = aux->next;
     while (aux != NULL)
     {
-        if (aux->c.f > maior)
-            maior = aux->c.f;
+        if (aux->c.f < menorF){
+            menorF = aux->c.f;
+            menor = aux->c;
+        }
+            
         aux = aux->next;
     }
-    return maior;
+    return menor;
+    
+}
+
+int menorElementoF(Lista *l)
+{
+    Lista *aux = l;
+    double menor = aux->c.f;
+    aux = aux->next;
+    while (aux != NULL)
+    {
+        if (aux->c.f < menor)
+            menor = aux->c.f;
+        aux = aux->next;
+    }
+    return menor;
 }
 
 int tamanho(Lista *l)
