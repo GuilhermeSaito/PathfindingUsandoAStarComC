@@ -26,27 +26,38 @@ Lista *inserir(Lista *lista, Ponto elem)
 /*Função para remover um elemento da lista encadeada em qq posição!*/
 Lista *remover(Lista *l, Ponto elem)
 {
+    printf("Entro no remover!\n");
     Lista *prev = NULL, *aux = l;
     while ((aux != NULL) && (aux->c.p.x != elem.x) && (aux->c.p.y != elem.y))
     {
+        printf("deveria sair...\n");
         prev = aux;
         aux = aux->next;
     }
-    if (aux == NULL)
+    if (aux == NULL) // Nao achou o elemento
     {
         printf("Nao achou o elemento a remover na lista\n");
         return l;
     }
-    else if (prev == NULL)
+    else if (prev == NULL) // Eh o primeiro elemento
     {
+        printf("Seria o primeiro elemento!\n");
         l = l->next;
-        l->prev = NULL;
+        if (l != NULL)
+            l->prev = NULL;
+    }
+    else if (aux->next == NULL) // Eh o ultimo elemento
+    {
+        prev->next = aux->next;
+        aux->prev = NULL;
     }
     else
     {
+        printf("Seria o ultimo ou algum outro elemento!\n");
         prev->next = aux->next;
         aux->next->prev = prev;
     }
+    printf("Ueh\n");
     free(aux);
     return l;
 }
@@ -60,16 +71,16 @@ Ponto procurarElementoF(Lista *l, Ponto f)
             return aux->c.p;
         aux = aux->next;
     }
-    printf("Nao achei o elemnto: %lf\tNa lista\n", f);
+    printf("Nao achei o elmento na lista\n");
     Ponto temp;
     temp.x = 0.0;
     temp.y = 0.0;
     return temp;
 }
 
-int existe(Lista* l, Celula c)
+int existe(Lista *l, Celula c)
 {
-    Lista* aux = l;
+    Lista *aux = l;
     while (aux != NULL)
     {
         // Como nao da para compara uma celula com outra, vou compara os f, g, h
@@ -80,7 +91,7 @@ int existe(Lista* l, Celula c)
     return 0;
 }
 
-Celula procurarMenor(Lista* l)
+Celula procurarMenor(Lista *l)
 {
     Lista *aux = l;
     double menorF = aux->c.f;
@@ -88,15 +99,15 @@ Celula procurarMenor(Lista* l)
     aux = aux->next;
     while (aux != NULL)
     {
-        if (aux->c.f < menorF){
+        if (aux->c.f < menorF)
+        {
             menorF = aux->c.f;
             menor = aux->c;
         }
-            
+
         aux = aux->next;
     }
     return menor;
-    
 }
 
 int menorElementoF(Lista *l)
