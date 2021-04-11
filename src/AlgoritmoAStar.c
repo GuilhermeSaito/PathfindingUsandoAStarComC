@@ -13,9 +13,9 @@ void heuristica(Celula *spot, Ponto inicio, Ponto fim)
     spot->f = spot->g + spot->h;
 }
 
-double heuristic(Celula a, Celula b)
+double heuristic(Celula* a, Celula* b)
 {
-    return round(distancia((a.p), (b.p)));
+    return round(distancia((a->p), (b->p)));
 }
 
 int comparar(Celula a, Celula b)
