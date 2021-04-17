@@ -9,14 +9,24 @@ Lista *criar(void)
 Lista *inserir(Lista *lista, Ponto elem)
 {
     Lista *novo = (Lista *)malloc(sizeof(Lista));
-    novo->c.valor = 0;
-    novo->c.p = elem;
-    novo->c.f = 0.0;
-    novo->c.g = 0.0;
-    novo->c.h = 0.0;
-    novo->c.vizinhos = criar();
-    novo->c.anterior = NULL;
-    novo->c.muro = 0;
+    novo->c->valor = 0;
+    novo->c->p = elem;
+    novo->c->f = 0.0;
+    novo->c->g = 0.0;
+    novo->c->h = 0.0;
+    novo->c->vizinhos = criar();
+    novo->c->anterior = NULL;
+    novo->c->muro = 0;
+
+    novo->next = lista;
+    novo->prev = NULL;
+    return novo;
+}
+
+Lista *inserirCelula(Lista *lista, Celula *c)
+{
+    Lista *novo = (Lista *)malloc(sizeof(Lista));
+    novo->c = c;
 
     novo->next = lista;
     novo->prev = NULL;
@@ -28,7 +38,7 @@ Lista *remover(Lista *l, Ponto elem)
 {
     printf("Entro no remover!\n");
     Lista *prev = NULL, *aux = l;
-    while ((aux != NULL) && (aux->c.p.x != elem.x) && (aux->c.p.y != elem.y))
+    while ((aux != NULL) && (aux->c->p.x != elem.x) && (aux->c->p.y != elem.y))
     {
         printf("deveria sair...\n");
         prev = aux;
@@ -62,49 +72,78 @@ Lista *remover(Lista *l, Ponto elem)
     return l;
 }
 
+Lista *removerCelula(Lista *lista, Celula *c)
+{
+    Lista *prev = NULL, *aux = lista;
+    while ((aux != NULL) && (aux->c->p.x != c->p.x) && (aux->c->p.y != c->p.y))
+    {
+
+        prev = aux;
+        aux = aux->next;
+    }
+    if (aux == NULL) // Nao achou o elemento
+        return lista;
+    else if (prev == NULL) // Eh o primeiro elemento
+    {
+        lista = lista->next;
+        if (lista != NULL)
+            lista->prev = NULL;
+    }
+    else if (aux->next == NULL) // Eh o ultimo elemento
+    {
+        prev->next = aux->next;
+        aux->prev = NULL;
+    }
+    else
+    {
+        prev->next = aux->next;
+        aux->next->prev = prev;
+    }
+    free(aux);
+    return lista;
+}
+
 Ponto procurarElementoF(Lista *l, Ponto f)
 {
     Lista *aux = l;
     while (aux != NULL)
     {
-        if (aux->c.p.x == f.x && aux->c.p.y == f.y)
-            return aux->c.p;
+        if (aux->c->p.x == f.x && aux->c->p.y == f.y)
+            return aux->c->p;
         aux = aux->next;
     }
-    printf("Nao achei o elmento na lista\n");
     Ponto temp;
     temp.x = 0.0;
     temp.y = 0.0;
     return temp;
 }
 
-int existe(Lista *l, Celula c)
+int existe(Lista *l, Celula *c)
 {
     Lista *aux = l;
     while (aux != NULL)
     {
-        // Como nao da para compara uma celula com outra, vou compara os f, g, h
-        if ((aux->c.f == c.f) && (aux->c.g == c.g) && (aux->c.h == c.h))
+        // Como nao da para compara uma celula com outra, vou compara os potos
+        if ((l->c->p.x == c->p.x) && (l->c->p.y == c->p.y))
             return 1;
         aux = aux->next;
     }
     return 0;
 }
 
-Celula procurarMenor(Lista *l)
+Celula *procurarMenor(Lista *l)
 {
     Lista *aux = l;
-    double menorF = aux->c.f;
-    Celula menor = aux->c;
+    double menorF = aux->c->f;
+    Celula *menor = aux->c;
     aux = aux->next;
     while (aux != NULL)
     {
-        if (aux->c.f < menorF)
+        if (aux->c->f < menorF)
         {
-            menorF = aux->c.f;
+            menorF = aux->c->f;
             menor = aux->c;
         }
-
         aux = aux->next;
     }
     return menor;
@@ -113,12 +152,12 @@ Celula procurarMenor(Lista *l)
 int menorElementoF(Lista *l)
 {
     Lista *aux = l;
-    double menor = aux->c.f;
+    double menor = aux->c->f;
     aux = aux->next;
     while (aux != NULL)
     {
-        if (aux->c.f < menor)
-            menor = aux->c.f;
+        if (aux->c->f < menor)
+            menor = aux->c->f;
         aux = aux->next;
     }
     return menor;
@@ -141,12 +180,13 @@ int vazio(Lista *l)
 /*Função para imprimir uma lista encadeada!*/
 void imprimir(Lista *lista)
 {
-    Lista *v; /*var. para percorrer a lista*/
-    for (v = lista; v != NULL; v = v->next)
+    Lista *aux = lista;
+    while (aux != NULL)
     {
-        printf("Valor X: %d\n", v->c.p.x);
-        printf("Valor Y: %d\n", v->c.p.y);
+        printf("X: %d\tY: %d\n", aux->c->p.x, aux->c->p.y);
+        aux = aux->next;
     }
+    printf("\n\n");
 }
 
 /*Função para desalocar uma lista encadeda!*/

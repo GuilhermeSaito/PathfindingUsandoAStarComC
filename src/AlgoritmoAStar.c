@@ -2,7 +2,7 @@
 
 int distancia(Ponto a, Ponto b)
 {
-    return abs(a.x - b.x) + abs(a.y - a.y);
+    return abs(a.x - b.x) + abs(a.y - b.y);
 }
 
 void heuristica(Celula *spot, Ponto inicio, Ponto fim)
@@ -22,7 +22,7 @@ double heuristicDestino(Celula *a, Ponto *p)
     return round(distancia((a->p), *p));
 }
 
-void adicionarVizinhos(Celula *spot, Celula **grid, int colunas, int linhas)
+void adicionarVizinhos(Celula *spot, Celula ***grid, int colunas, int linhas)
 {
     int i = spot->p.x;
     int j = spot->p.y;
@@ -30,22 +30,22 @@ void adicionarVizinhos(Celula *spot, Celula **grid, int colunas, int linhas)
     if (i < colunas - 1)
     {
         //spot.neighbors.push(grid[i + 1][j]);
-        inserir(spot->vizinhos, grid[i + 1][j].p);
+        spot->vizinhos = inserirCelula(spot->vizinhos, grid[i + 1][j]);
     }
     if (i > 0)
     {
         //spot.neighbors.push(grid[i - 1][j]);
-        inserir(spot->vizinhos, grid[i - 1][j].p);
+        spot->vizinhos = inserirCelula(spot->vizinhos, grid[i - 1][j]);
     }
     if (j < linhas - 1)
     {
         //spot.neighbors.push(grid[i][j + 1]);
-        inserir(spot->vizinhos, grid[i][j + 1].p);
+        spot->vizinhos = inserirCelula(spot->vizinhos, grid[i][j + 1]);
     }
     if (j > 0)
     {
         //spot.neighbors.push(grid[i][j - 1]);
-        inserir(spot->vizinhos, grid[i][j - 1].p);
+        spot->vizinhos = inserirCelula(spot->vizinhos, grid[i][j - 1]);
     }
 }
 
@@ -56,4 +56,16 @@ int comparar(Celula a, Celula b)
     else if (a.f < b.f)
         return 1;
     return 0;
+}
+
+// Apagar essa funcao dps
+void imprimirVizinhosPonto(Lista *l)
+{
+    Lista *aux = l;
+    while (aux != NULL)
+    {
+        printf("X: %d\tY: %d\n", aux->c->p.x, aux->c->p.y);
+        aux = aux->next;
+    }
+    printf("\n\n");
 }
