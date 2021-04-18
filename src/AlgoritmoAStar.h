@@ -5,8 +5,8 @@
 
 #include <math.h>
 
-#define LINHA 4
-#define COLUNA 4
+#define LINHA 10
+#define COLUNA 10
 
 int distancia(Ponto a, Ponto b);
 void heuristica(Celula *spot, Ponto inicio, Ponto fim);

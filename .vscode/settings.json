@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "algoritmoastar.h": "c"
+        "algoritmoastar.h": "c",
+        "lista.h": "c",
+        "stdio.h": "c"
     }
 }

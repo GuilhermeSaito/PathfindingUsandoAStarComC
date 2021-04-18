@@ -1,8 +1,28 @@
 #include "AlgoritmoAStar.h"
 #include "lista.h"
-
+#include <stdio.h>
+#include <stdlib.h> 
 #define true 1
 #define false 0
+
+
+void drawGrid(Celula*** grid,int linhas,int colunas){
+    
+       for (int i = 0; i < LINHA; i++){
+            for (int j = 0; j < COLUNA; j++){
+                //printf("%d",grid[i][j]->muro);
+                if(grid[i][j]->muro){
+                    printf(" # ");
+                }else{
+                    printf(" %i ",grid[i][j]->valor);
+                }
+            }
+            printf("\n");
+       }
+        
+    //system("clear");
+    printf("\n\n");
+}
 
 int main()
 {
@@ -42,7 +62,7 @@ int main()
 
     Celula *inicio, *destino;
     inicio = grid[0][0];
-    destino = grid[LINHA - 1][COLUNA - 1];
+    destino = grid[LINHA - 5][COLUNA - 5];
 
     Lista *listaAberta = criar();
     Lista *listaFechada = criar();
@@ -55,45 +75,62 @@ int main()
     //int contador = 0;
     while (!vazio(listaAberta))
     {
-        //contador++;
-        //procuramos o menor f dos elementa da lista aberta
-        //printf("Vai Procupar o menor a matriz\n");
+
+        
+       
         Celula *atual = procurarMenor(listaAberta);
-        printf("\nCelula Atual: %d\t%d\n", atual->p.x, atual->p.y);
-        printf("\nDestino: %d\t%d\n", destino->p.x, destino->p.y);
-        //Chagamos ao destino
+        //printf("%d %d \n",atual->p.x,atual->p.y);
+        //break;
+
+        //desenha pilha fechada
+        Lista * aux = listaAberta;
+
+        while(aux != NULL){
+            aux->c->valor = 1;
+            aux = aux->next;
+        }
+
+        //desenha pilha aberta
+        aux = listaFechada;
+
+        while(aux != NULL){
+            aux->c->valor = 2;
+            aux = aux->next;
+        }
+
+
+        drawGrid(grid,LINHA,COLUNA);
         if ((atual->p.x == destino->p.x) && (atual->p.y == destino->p.y))
         {
-            //printf("Entro no if de chegada no destino\n");
-            /*pathfind = criar();
-            Celula *temp = atual;
-            inserir(pathfind, temp->p);
-            while (temp != NULL)
+            printf("Entro no if de chegada no destino\n");
+            //pathfind = criar();
+            Celula *aux = atual;
+            atual->valor = 1;
+            i = 0;
+            while (aux->anterior != NULL)
             {
-                Ponto p = temp->anterior->p;
-                inserir(pathfind, p);
-                temp = temp->anterior;
-                //print grid pathfindind
-            }*/
+                //drawGrid(grid,LINHA,COLUNA);
+                aux = aux->anterior;
+                aux->valor = 1;
+                printf("%d %d \n",aux->p.x,aux->p.y);
+                i++;
+            }
+            
+            // printf("%d %d \n",atual->p.x,atual->p.y);
+             drawGrid(grid,LINHA,COLUNA);
+            
             printf("\nDEU CERTO K7!!!!\n\n");
             break;
         }
 
-        //remover pilha aperta atual e coloca na pilha fechada
+       
         listaAberta = removerCelula(listaAberta, atual);
-        //printf("Vai Inserir\n");
         listaFechada = inserirCelula(listaFechada, atual);
 
         Lista *vizinhanca = atual->vizinhos;
-        imprimirVizinhosPonto(vizinhanca);
-        //if (vizinhanca == NULL)
-        //printf("Vai Inserir\n");
         while (vizinhanca != NULL)
         {
-            // Na primeira vez, aqui vai ser os 2 cantos (1,0) (0,1)
             Celula *vizinhosDoAtual = vizinhanca->c;
-            //heuristica(vizinhosDoAtual, inicio->p, destino->p);
-
             // Se nao existir na lista fechada e nao for um muro
             if (!existe(listaFechada, vizinhosDoAtual) && !vizinhosDoAtual->muro)
             {
@@ -104,33 +141,19 @@ int main()
 
                 if (existe(listaAberta, vizinhosDoAtual))
                 {
-                    //printf("Existe o elemento na lista Aberta\n");
                     if (tempG < vizinhosDoAtual->g)
                     {
-                        //printf("temp G < vizinhosDoAtual\n");
-                        vizinhosDoAtual->g = tempG;
                         newPathFind = true;
-
-                        /*vizinhosDoAtual->h = heuristic(vizinhosDoAtual, destino);
-                        vizinhosDoAtual->f = vizinhosDoAtual->g + vizinhosDoAtual->h;
-                        vizinhosDoAtual->anterior = atual;*/
+                        vizinhosDoAtual->g = tempG;
+                        
                     }
                 }
                 else
                 {
-                    //printf("Vai colocar na lista aberta\n");
-                    vizinhosDoAtual->g = tempG;
                     newPathFind = true;
-
-                    /*vizinhosDoAtual->h = heuristic(vizinhosDoAtual, destino);
-                    vizinhosDoAtual->f = vizinhosDoAtual->g + vizinhosDoAtual->h;
-                    vizinhosDoAtual->anterior = atual;*/
-
+                    vizinhosDoAtual->g = tempG;
                     listaAberta = inserirCelula(listaAberta, vizinhosDoAtual);
-                    printf("\nListaAberta: \n");
-                    imprimirVizinhosPonto(listaAberta);
-                    printf("\nVizinhso do atual: \n");
-                    imprimirVizinhosPonto(vizinhosDoAtual->vizinhos);
+                 
                 }
 
                 if (newPathFind)
@@ -138,12 +161,12 @@ int main()
                     vizinhosDoAtual->h = heuristic(vizinhosDoAtual, destino);
                     vizinhosDoAtual->f = vizinhosDoAtual->g + vizinhosDoAtual->h;
                     vizinhosDoAtual->anterior = atual;
+                   
                 }
             }
-            //else if (!existe(listaFechada, vizinhosDoAtual))
-            //    listaAberta = inserirCelula(listaAberta, vizinhosDoAtual);
+    
 
-            //
+            //Vizinhança anda pra frente (Percorrendo a Lista)
             vizinhanca = vizinhanca->next;
         }
     }

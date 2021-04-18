@@ -124,7 +124,7 @@ int existe(Lista *l, Celula *c)
     while (aux != NULL)
     {
         // Como nao da para compara uma celula com outra, vou compara os potos
-        if ((l->c->p.x == c->p.x) && (l->c->p.y == c->p.y))
+        if ((aux->c->p.x == c->p.x) && (aux->c->p.y == c->p.y))
             return 1;
         aux = aux->next;
     }

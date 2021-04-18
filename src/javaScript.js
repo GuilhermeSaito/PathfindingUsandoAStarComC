@@ -162,7 +162,7 @@ let interval = setInterval(() => {
             }
         }
         var current = pilhaAberta[winner];
-        /*if (current === end) {
+        if (current === end) {
             PathFind = [];
             var temp = current;
             PathFind.push(temp);
@@ -173,7 +173,7 @@ let interval = setInterval(() => {
             }
             console.log("DONE!");
             stop = true;
-        }*/
+        }
         removeFromArray(pilhaAberta, current);
         pilhaFechada.push(current);
         var neighbors = current.neighbors;

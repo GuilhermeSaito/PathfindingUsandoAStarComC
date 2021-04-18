@@ -15,5 +15,8 @@ main: $(OBJECTS)
 bin/%.o: src/%.c
 	gcc $< -c -o $@ 
 
+tests : 
+	echo "Not implemented"
+
 clean:
 	rm main -f bin/*.o
