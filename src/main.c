@@ -2,6 +2,7 @@
 #include "lista.h"
 #include <stdio.h>
 #include <stdlib.h> 
+#include <time.h>
 #define true 1
 #define false 0
 
@@ -26,7 +27,7 @@ void drawGrid(Celula*** grid,int linhas,int colunas){
 
 int main()
 {
-
+    srand(time(NULL));
     // Criando o grid aqui a mao, mas da para fazer os obstaculos um com rand
     // A linha e coluna estao definidas no .h incluido, se quiser aumentar ou diminuir alguma dimensao, soh alterar lah
     // 1 = Caminho livre.   0 - Caminho bloqueado
@@ -53,6 +54,16 @@ int main()
             grid[i][j]->vizinhos = NULL;
             grid[i][j]->anterior = NULL;
             grid[i][j]->muro = 0;
+
+            //Random de  0 a 10
+            //Se random for <=4 diz que muro
+            // 
+            int random = rand()%10-0;
+
+            if(random <= 4 ){
+                grid[i][j]->muro = 1;
+            }
+            
         }
 
     // colocando os vizinhos no spot
