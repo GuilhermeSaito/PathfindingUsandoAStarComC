@@ -3,6 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h> 
 #include <time.h>
+
+#include <unistd.h>
+#include <fcntl.h>
+
 #define true 1
 #define false 0
 
@@ -14,7 +18,10 @@ void drawGrid(Celula*** grid,int linhas,int colunas){
                 //printf("%d",grid[i][j]->muro);
                 if(grid[i][j]->muro){
                     printf(" # ");
-                }else{
+                }else if(grid[i][j]->valor == 3){
+                    printf(" * ");
+                }
+                else{
                     printf(" %i ",grid[i][j]->valor);
                 }
             }
@@ -58,9 +65,9 @@ int main()
             //Random de  0 a 10
             //Se random for <=4 diz que muro
             // 
-            int random = rand()%10-0;
+            int random = rand()%10;
 
-            if(random <= 4 ){
+            if(random == 0 ){
                 grid[i][j]->muro = 1;
             }
             
@@ -72,23 +79,30 @@ int main()
             adicionarVizinhos(grid[i][j], grid, LINHA, COLUNA);
 
     Celula *inicio, *destino;
-    inicio = grid[0][0];
-    destino = grid[LINHA - 5][COLUNA - 5];
+    int rand_x = rand()% (LINHA-1);
+    int rand_y = rand()% (COLUNA-1); 
 
-    Lista *listaAberta = criar();
+
+    inicio = grid[rand_x][rand_y];
+    
+    rand_x = rand()% (LINHA-1);
+    rand_y = rand()% (COLUNA-1); 
+
+    destino = grid[rand_x][rand_y];
+
+    Lista *listaAberta  = criar();
     Lista *listaFechada = criar();
+
     listaAberta = inserirCelula(listaAberta, inicio);
     // Desenha o grid...
     Lista *pathfind;
     int parar;
     int anterior;
 
+    int flag = 0;
     //int contador = 0;
     while (!vazio(listaAberta))
     {
-
-        
-       
         Celula *atual = procurarMenor(listaAberta);
         //printf("%d %d \n",atual->p.x,atual->p.y);
         //break;
@@ -97,7 +111,7 @@ int main()
         Lista * aux = listaAberta;
 
         while(aux != NULL){
-            aux->c->valor = 1;
+            aux->c->valor = 2;
             aux = aux->next;
         }
 
@@ -105,31 +119,42 @@ int main()
         aux = listaFechada;
 
         while(aux != NULL){
-            aux->c->valor = 2;
+            aux->c->valor = 1;
             aux = aux->next;
         }
 
-
+        system("clear");
+        usleep(2000);
         drawGrid(grid,LINHA,COLUNA);
         if ((atual->p.x == destino->p.x) && (atual->p.y == destino->p.y))
         {
-            printf("Entro no if de chegada no destino\n");
+            flag = 1;
+            //printf("Entro no if de chegada no destino\n");
             //pathfind = criar();
             Celula *aux = atual;
-            atual->valor = 1;
+            atual->valor = 3;
             i = 0;
             while (aux->anterior != NULL)
             {
                 //drawGrid(grid,LINHA,COLUNA);
                 aux = aux->anterior;
-                aux->valor = 1;
-                printf("%d %d \n",aux->p.x,aux->p.y);
+                aux->valor = 3;
+                //printf("%d %d \n",aux->p.x,aux->p.y);
                 i++;
+
             }
-            
-            // printf("%d %d \n",atual->p.x,atual->p.y);
-             drawGrid(grid,LINHA,COLUNA);
-            
+            for (int i = 0; i < LINHA; i++){
+            for (int j = 0; j < COLUNA; j++){
+                //printf("%d",grid[i][j]->muro);
+                if(!grid[i][j]->muro && grid[i][j]->valor != 3){
+                    grid[i][j]->valor = 0;
+                }
+                
+            }
+            printf("\n");
+            }
+        
+            drawGrid(grid,LINHA,COLUNA);
             printf("\nDEU CERTO K7!!!!\n\n");
             break;
         }
@@ -181,6 +206,9 @@ int main()
             vizinhanca = vizinhanca->next;
         }
     }
+
+    if (!flag)
+        printf("Nao achei o caminho!\n");
 
     // Desalocando o grid
     for (i = 0; i < LINHA; i++)
