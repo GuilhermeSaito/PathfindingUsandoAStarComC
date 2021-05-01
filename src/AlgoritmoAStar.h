@@ -29,6 +29,6 @@ void setNumberListaFechada(Lista *listaFechada);
 int isDestino(Celula *atual, Celula *destino);
 void freeGrid(Celula ***grid, int linhas, int colunas);
 
-int pathFind(Celula ***grid, Celula *destino, Lista *listaAberta, Lista *listaFechada);
+int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta, Lista *listaFechada);
 
 #endif

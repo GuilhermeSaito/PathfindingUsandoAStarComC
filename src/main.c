@@ -41,7 +41,7 @@ int main()
     listaAberta = inserirCelula(listaAberta, inicio);
 
     // O inicio ja estah na listaAberta!
-    if (pathFind(grid, destino, listaAberta, listaFechada))
+    if (pathFind(grid, inicio, destino, listaAberta, listaFechada))
         printf("Chegamos no destino!\n");
     else
         printf("Nao achei o caminho!\n");

@@ -65,7 +65,7 @@ void initializeGrid(Celula ***grid, int linhas, int colunas)
 
             //Random de  0 a 9
             int random = rand() % 10;
-            if (random >= 8)
+            if (random >= 6)
                 grid[i][j]->muro = 1;
         }
 }
@@ -130,7 +130,7 @@ void freeGrid(Celula ***grid, int linhas, int colunas)
     free(grid);
 }
 
-int pathFind(Celula ***grid, Celula *destino, Lista *listaAberta, Lista *listaFechada)
+int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta, Lista *listaFechada)
 {
     while (!vazio(listaAberta))
     {
@@ -171,21 +171,21 @@ int pathFind(Celula ***grid, Celula *destino, Lista *listaAberta, Lista *listaFe
         {
             Celula *vizinhosDoAtual = vizinhanca->c;
             // Se nao existir na lista fechada e nao for um muro
-            if (!existe(listaFechada, vizinhosDoAtual) && !vizinhosDoAtual->muro)
+            if ((!existe(listaFechada, vizinhosDoAtual)) && (!vizinhosDoAtual->muro))
             {
                 //double tempG = atual->g + heuristic(vizinhosDoAtual, atual);
-                double tempG = heuristic(vizinhosDoAtual, atual);
+                double tempG = heuristic(vizinhosDoAtual, inicio);
                 int newPathFind = 0;
 
-                if (!existe(listaAberta, vizinhosDoAtual))
+                /*if (!existe(listaAberta, vizinhosDoAtual))
                 {
                     vizinhosDoAtual->g = tempG;
                     vizinhosDoAtual->h = heuristic(vizinhosDoAtual, destino);
                     vizinhosDoAtual->f = vizinhosDoAtual->g + vizinhosDoAtual->h;
                     vizinhosDoAtual->anterior = atual;
                     listaAberta = inserirCelula(listaAberta, vizinhosDoAtual);
-                }
-                /*if (existe(listaAberta, vizinhosDoAtual))
+                }*/
+                if (existe(listaAberta, vizinhosDoAtual))
                 {
                     if (tempG < vizinhosDoAtual->g)
                     {
@@ -205,10 +205,8 @@ int pathFind(Celula ***grid, Celula *destino, Lista *listaAberta, Lista *listaFe
                     vizinhosDoAtual->h = heuristic(vizinhosDoAtual, destino);
                     vizinhosDoAtual->f = vizinhosDoAtual->g + vizinhosDoAtual->h;
                     vizinhosDoAtual->anterior = atual;
-                }*/
+                }
             }
-
-            //Vizinhança anda pra frente (Percorrendo a Lista)
             vizinhanca = vizinhanca->next;
         }
     }
