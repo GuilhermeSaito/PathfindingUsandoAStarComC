@@ -5,21 +5,9 @@ int distancia(Ponto a, Ponto b)
     return abs(a.x - b.x) + abs(a.y - b.y);
 }
 
-void heuristica(Celula *spot, Ponto inicio, Ponto fim)
-{
-    // Custo do inicio ateh o atual
-    spot->g = round(distancia(spot->p, inicio));
-    spot->h = round(distancia(spot->p, fim));
-    spot->f = spot->g + spot->h;
-}
-
 double heuristic(Celula *a, Celula *b)
 {
     return round(distancia((a->p), (b->p)));
-}
-double heuristicDestino(Celula *a, Ponto *p)
-{
-    return round(distancia((a->p), *p));
 }
 
 void adicionarVizinhos(Celula *spot, Celula ***grid, int colunas, int linhas)
@@ -35,15 +23,6 @@ void adicionarVizinhos(Celula *spot, Celula ***grid, int colunas, int linhas)
         spot->vizinhos = inserirCelula(spot->vizinhos, grid[i][j + 1]);
     if (j > 0)
         spot->vizinhos = inserirCelula(spot->vizinhos, grid[i][j - 1]);
-}
-
-int comparar(Celula a, Celula b)
-{
-    if (a.f > b.f)
-        return -1;
-    else if (a.f < b.f)
-        return 1;
-    return 0;
 }
 
 void initializeGrid(Celula ***grid, int linhas, int colunas)
@@ -68,21 +47,29 @@ void initializeGrid(Celula ***grid, int linhas, int colunas)
             if (random <= 0)
                 grid[i][j]->muro = 1;
 
-            if (i == 0) {
+            if (i == 0)
+            {
                 grid[i][j]->muro = 1;
             }
 
-            if (i == COLUNA - 1) {
-               grid[i][j]->muro = 1;
+            if (i == COLUNA - 1)
+            {
+                grid[i][j]->muro = 1;
             }
 
-            if (j == 0) {
-               grid[i][j]->muro = 1;
+            if (j == 0)
+            {
+                grid[i][j]->muro = 1;
             }
 
-            if (j == COLUNA - 1) {
-               grid[i][j]->muro = 1;
+            if (j == COLUNA - 1)
+            {
+                grid[i][j]->muro = 1;
             }
+
+            // colocand a linha
+            if (i == 5)
+                grid[i][j]->muro = 1;
         }
 }
 
@@ -155,8 +142,8 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
         setNumberListaAberta(listaAberta);
         setNumberListaFechada(listaFechada);
 
-        system("cls");
-        usleep(3000);
+        //system("clear");
+        usleep(2000);
         drawGrid(grid, LINHA, COLUNA);
         if (isDestino(atual, destino))
         {
@@ -170,7 +157,7 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
             for (int i = 0; i < LINHA; i++)
             {
                 for (int j = 0; j < COLUNA; j++)
-                    if (!grid[i][j]->muro && grid[i][j]->valor != 3)
+                    if (!grid[i][j]->muro && grid[i][j]->valor != 3 && grid[i][j]->valor != 4 && grid[i][j]->valor != 8)
                         grid[i][j]->valor = 0;
                 printf("\n");
             }
@@ -179,28 +166,34 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
             return 1;
         }
 
-        listaAberta = removerCelula(listaAberta, atual);
-        listaFechada = inserirCelula(listaFechada, atual);
+        listaAberta = removerCelula(listaAberta, atual); // se nao existe lista fechada insira
+        if (!existe(listaFechada, atual))
+            listaFechada = inserirCelula(listaFechada, atual);
 
+        printf("\nListaAberta: \n");
+        imprimir(listaAberta);
+        printf("\nLista Fechada \n");
+        imprimir(listaFechada);
         Lista *vizinhanca = atual->vizinhos;
+        printf("\nVizinhanca de x:%i y:%i \n", atual->p.x, atual->p.y);
+        imprimir(vizinhanca);
+        atual->valor = 5;
+
         while (vizinhanca != NULL)
         {
             Celula *vizinhosDoAtual = vizinhanca->c;
+            vizinhosDoAtual->valor = 6;
+
+            if (isDestino(vizinhosDoAtual, destino))
+            {
+                printf("\n\n\n!!! VZINHO É O FIM !!!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+            }
             // Se nao existir na lista fechada e nao for um muro
             if ((!existe(listaFechada, vizinhosDoAtual)) && (!vizinhosDoAtual->muro))
             {
                 double tempG = atual->g + heuristic(vizinhosDoAtual, atual);
-                //double tempG = heuristic(vizinhosDoAtual, inicio);
                 int newPathFind = 0;
 
-                // if (!existe(listaAberta, vizinhosDoAtual))
-                // {
-                //     vizinhosDoAtual->g = tempG;
-                //     vizinhosDoAtual->h = heuristic(vizinhosDoAtual, destino);
-                //     vizinhosDoAtual->f = vizinhosDoAtual->g + vizinhosDoAtual->h;
-                //     vizinhosDoAtual->anterior = atual;
-                //     listaAberta = inserirCelula(listaAberta, vizinhosDoAtual);
-                // }
                 if (existe(listaAberta, vizinhosDoAtual))
                 {
                     if (tempG < vizinhosDoAtual->g)
@@ -213,6 +206,8 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
                 {
                     newPathFind = 1;
                     vizinhosDoAtual->g = tempG;
+                    //ele volta pra lista fechado quando cai aqui //
+                    // ele volta pra lista aberta                 //
                     listaAberta = inserirCelula(listaAberta, vizinhosDoAtual);
                 }
 

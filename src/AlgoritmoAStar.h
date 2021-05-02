@@ -11,15 +11,12 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#define LINHA 20
-#define COLUNA 20
+#define LINHA 10
+#define COLUNA 10
 
 int distancia(Ponto a, Ponto b);
-void heuristica(Celula *spot, Ponto inicio, Ponto fim);
 double heuristic(Celula *a, Celula *b);
-double heuristicDestino(Celula *a, Ponto *p);
 void adicionarVizinhos(Celula *spot, Celula ***grid, int linhas, int colunas);
-int comparar(Celula a, Celula b);
 
 void initializeGrid(Celula ***grid, int linhas, int colunas);
 void unblockInicioDestino(Celula ***grid, int x, int y);
