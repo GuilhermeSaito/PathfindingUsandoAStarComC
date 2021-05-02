@@ -77,13 +77,12 @@ Lista *removerCelula(Lista *lista, Celula *c)
     Lista *prev = NULL, *aux = lista;
     while ((aux != NULL) && (aux->c->p.x != c->p.x) && (aux->c->p.y != c->p.y))
     {
-
         prev = aux;
         aux = aux->next;
     }
     if (aux == NULL) // Nao achou o elemento
         return lista;
-    else if (prev == NULL) // Eh o primeiro elemento
+    if (prev == NULL) // Eh o primeiro elemento
     {
         lista = lista->next;
         if (lista != NULL)
@@ -103,21 +102,6 @@ Lista *removerCelula(Lista *lista, Celula *c)
     return lista;
 }
 
-Ponto procurarElementoF(Lista *l, Ponto f)
-{
-    Lista *aux = l;
-    while (aux != NULL)
-    {
-        if (aux->c->p.x == f.x && aux->c->p.y == f.y)
-            return aux->c->p;
-        aux = aux->next;
-    }
-    Ponto temp;
-    temp.x = 0.0;
-    temp.y = 0.0;
-    return temp;
-}
-
 int existe(Lista *l, Celula *c)
 {
     Lista *aux = l;
@@ -133,10 +117,9 @@ int existe(Lista *l, Celula *c)
 
 Celula *procurarMenor(Lista *l)
 {
-    Lista *aux = l;
-    double menorF = aux->c->f;
-    Celula *menor = aux->c;
-    aux = aux->next;
+    Lista *aux = l->next;
+    double menorF = l->c->f;
+    Celula *menor = l->c;
     while (aux != NULL)
     {
         if (aux->c->f < menorF)
@@ -144,20 +127,6 @@ Celula *procurarMenor(Lista *l)
             menorF = aux->c->f;
             menor = aux->c;
         }
-        aux = aux->next;
-    }
-    return menor;
-}
-
-int menorElementoF(Lista *l)
-{
-    Lista *aux = l;
-    double menor = aux->c->f;
-    aux = aux->next;
-    while (aux != NULL)
-    {
-        if (aux->c->f < menor)
-            menor = aux->c->f;
         aux = aux->next;
     }
     return menor;
@@ -196,6 +165,8 @@ void liberar(Lista *l)
     while (l != NULL)
     {
         aux = l->next;
+        l->next = NULL;
+        l->prev = NULL;
         free(l);
         l = aux;
     }

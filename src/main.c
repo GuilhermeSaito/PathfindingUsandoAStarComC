@@ -21,20 +21,24 @@ int main()
     /* Setando os pontos de inicio e destino */
     Celula *inicio, *destino;
 
-    int rand_x = rand() % (LINHA - 1);
-    int rand_y = rand() % (COLUNA - 1);
+    int rand_x = (rand() % ((LINHA - 2) - 1)) + 1;
+    int rand_y = (rand() % ((COLUNA - 2) - 1)) + 1;
 
     //inicio = grid[rand_x][rand_y];
     //unblockInicioDestino(grid, rand_x, rand_y);
-    unblockInicioDestino(grid, 0, 0);
-    inicio = grid[0][0];
-    rand_x = rand() % (LINHA - 1);
-    rand_y = rand() % (COLUNA - 1);
+    //grid[rand_x][rand_y]->valor = 4;
+    unblockInicioDestino(grid, 1, 1);
+    inicio = grid[1][1];
+    grid[1][1]->valor = 4;
+    rand_x = (rand() % ((LINHA - 2) - 1)) + 1;
+    rand_y = (rand() % ((COLUNA - 2) - 1)) + 1;
 
-    //destino = grid[rand_x][rand_y];
-    //unblockInicioDestino(grid, rand_x, rand_y);
-    unblockInicioDestino(grid, COLUNA - 1, LINHA - 1);
-    destino = grid[COLUNA - 1][LINHA - 1];
+    // destino = grid[rand_x][rand_y];
+    // unblockInicioDestino(grid, rand_x, rand_y);
+    // grid[rand_x][rand_y]->valor = 8;
+    unblockInicioDestino(grid, LINHA - 2, LINHA - 2);
+    destino = grid[LINHA - 2][LINHA - 2];
+    grid[LINHA - 2][LINHA - 2]->valor = 8;
     Lista *listaAberta = criar();
     Lista *listaFechada = criar();
 
@@ -46,6 +50,8 @@ int main()
     else
         printf("Nao achei o caminho!\n");
 
+    liberar(listaAberta);
+    liberar(listaFechada);
     freeGrid(grid, LINHA, COLUNA);
 
     return 0;
