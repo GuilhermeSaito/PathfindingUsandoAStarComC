@@ -11,8 +11,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#define LINHA 15
-#define COLUNA 15
+#define LINHA 20
+#define COLUNA 20
 
 int distancia(Ponto a, Ponto b);
 void heuristica(Celula *spot, Ponto inicio, Ponto fim);

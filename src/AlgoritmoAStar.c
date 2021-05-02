@@ -65,7 +65,7 @@ void initializeGrid(Celula ***grid, int linhas, int colunas)
 
             //Random de  0 a 9
             int random = rand() % 10;
-            if (random <= 0 && 0)
+            if (random <= 0)
                 grid[i][j]->muro = 1;
 
             if (i == 0) {
@@ -155,7 +155,7 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
         setNumberListaAberta(listaAberta);
         setNumberListaFechada(listaFechada);
 
-        system("clear");
+        system("cls");
         usleep(3000);
         drawGrid(grid, LINHA, COLUNA);
         if (isDestino(atual, destino))
