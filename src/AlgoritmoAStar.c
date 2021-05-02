@@ -65,8 +65,24 @@ void initializeGrid(Celula ***grid, int linhas, int colunas)
 
             //Random de  0 a 9
             int random = rand() % 10;
-            if (random >= 6)
+            if (random <= 0 && 0)
                 grid[i][j]->muro = 1;
+
+            if (i == 0) {
+                grid[i][j]->muro = 1;
+            }
+
+            if (i == COLUNA - 1) {
+               grid[i][j]->muro = 1;
+            }
+
+            if (j == 0) {
+               grid[i][j]->muro = 1;
+            }
+
+            if (j == COLUNA - 1) {
+               grid[i][j]->muro = 1;
+            }
         }
 }
 
@@ -82,9 +98,9 @@ void drawGrid(Celula ***grid, int linhas, int colunas)
     {
         for (int j = 0; j < COLUNA; j++)
             if (grid[i][j]->muro)
-                printf(" # ");
+                printf(" \e[0;33m#\x1b[0m ");
             else if (grid[i][j]->valor == 3)
-                printf(" * ");
+                printf(" \x1b[31m*\x1b[0m ");
             else
                 printf(" %i ", grid[i][j]->valor);
         printf("\n");
@@ -139,8 +155,8 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
         setNumberListaAberta(listaAberta);
         setNumberListaFechada(listaFechada);
 
-        //system("clear");
-        usleep(2000);
+        system("cls");
+        usleep(3000);
         drawGrid(grid, LINHA, COLUNA);
         if (isDestino(atual, destino))
         {
@@ -173,18 +189,18 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
             // Se nao existir na lista fechada e nao for um muro
             if ((!existe(listaFechada, vizinhosDoAtual)) && (!vizinhosDoAtual->muro))
             {
-                //double tempG = atual->g + heuristic(vizinhosDoAtual, atual);
-                double tempG = heuristic(vizinhosDoAtual, inicio);
+                double tempG = atual->g + heuristic(vizinhosDoAtual, atual);
+                //double tempG = heuristic(vizinhosDoAtual, inicio);
                 int newPathFind = 0;
 
-                /*if (!existe(listaAberta, vizinhosDoAtual))
-                {
-                    vizinhosDoAtual->g = tempG;
-                    vizinhosDoAtual->h = heuristic(vizinhosDoAtual, destino);
-                    vizinhosDoAtual->f = vizinhosDoAtual->g + vizinhosDoAtual->h;
-                    vizinhosDoAtual->anterior = atual;
-                    listaAberta = inserirCelula(listaAberta, vizinhosDoAtual);
-                }*/
+                // if (!existe(listaAberta, vizinhosDoAtual))
+                // {
+                //     vizinhosDoAtual->g = tempG;
+                //     vizinhosDoAtual->h = heuristic(vizinhosDoAtual, destino);
+                //     vizinhosDoAtual->f = vizinhosDoAtual->g + vizinhosDoAtual->h;
+                //     vizinhosDoAtual->anterior = atual;
+                //     listaAberta = inserirCelula(listaAberta, vizinhosDoAtual);
+                // }
                 if (existe(listaAberta, vizinhosDoAtual))
                 {
                     if (tempG < vizinhosDoAtual->g)
