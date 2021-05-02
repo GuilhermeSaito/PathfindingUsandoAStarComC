@@ -155,7 +155,7 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
         setNumberListaAberta(listaAberta);
         setNumberListaFechada(listaFechada);
 
-        system("cls");
+        system("clear");
         usleep(3000);
         drawGrid(grid, LINHA, COLUNA);
         if (isDestino(atual, destino))
