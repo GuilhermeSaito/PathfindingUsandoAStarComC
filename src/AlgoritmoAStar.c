@@ -44,8 +44,7 @@ void initializeGrid(Celula ***grid, int linhas, int colunas)
 
             //Random de  0 a 9
             int random = rand() % 10;
-
-            if (random <= 0 && 0)
+            if (random <= 0)
                 grid[i][j]->muro = 1;
 
             if (i == 0)
@@ -67,6 +66,10 @@ void initializeGrid(Celula ***grid, int linhas, int colunas)
             {
                 grid[i][j]->muro = 1;
             }
+
+            // colocand a linha
+            if (i == 5)
+                grid[i][j]->muro = 1;
         }
 }
 
@@ -139,8 +142,8 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
         setNumberListaAberta(listaAberta);
         setNumberListaFechada(listaFechada);
 
-        system("clear");
-        usleep(3000);
+        //system("clear");
+        usleep(2000);
         drawGrid(grid, LINHA, COLUNA);
         if (isDestino(atual, destino))
         {
@@ -189,17 +192,8 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
             if ((!existe(listaFechada, vizinhosDoAtual)) && (!vizinhosDoAtual->muro))
             {
                 double tempG = atual->g + heuristic(vizinhosDoAtual, atual);
-                //double tempG = heuristic(vizinhosDoAtual, inicio);
                 int newPathFind = 0;
 
-                // if (!existe(listaAberta, vizinhosDoAtual))
-                // {
-                //     vizinhosDoAtual->g = tempG;
-                //     vizinhosDoAtual->h = heuristic(vizinhosDoAtual, destino);
-                //     vizinhosDoAtual->f = vizinhosDoAtual->g + vizinhosDoAtual->h;
-                //     vizinhosDoAtual->anterior = atual;
-                //     listaAberta = inserirCelula(listaAberta, vizinhosDoAtual);
-                // }
                 if (existe(listaAberta, vizinhosDoAtual))
                 {
                     if (tempG < vizinhosDoAtual->g)
