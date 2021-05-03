@@ -14,9 +14,9 @@ typedef struct Spot
 {
     int valor;
     Ponto p;
-    double f;
-    double g;
-    double h;
+    int f;
+    int g;
+    int h;
     struct List *vizinhos;
     struct Spot *anterior;
     int muro;

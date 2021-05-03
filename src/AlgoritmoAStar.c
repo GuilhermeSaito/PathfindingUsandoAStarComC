@@ -2,11 +2,16 @@
 
 int distancia(Ponto a, Ponto b)
 {
-    return abs(a.x - b.x) + abs(a.y - b.y);
+    int d = abs(a.x - b.x) + abs(a.y - b.y);
+    //printf("Vi: %i ",abs(a.x - b.x) + abs(a.y - b.y));
+    //printf(" Vd: %d ",d);
+    return d;
 }
-double heuristic(Celula *a, Celula *b)
+int heuristic(Celula *a, Celula *b)
 {
-    return round(distancia((a->p), (b->p)));
+    int h = round(distancia((a->p), (b->p)));
+    //printf("Vh: %d\n",h);
+    return h;
 }
 void adicionarVizinhos(Celula *spot, Celula ***grid, int colunas, int linhas)
 {
@@ -32,9 +37,9 @@ void initializeGrid(Celula ***grid, int linhas, int colunas)
             grid[i][j] = (Celula *)malloc(sizeof(Celula));
             grid[i][j]->p.x = i;
             grid[i][j]->p.y = j;
-            grid[i][j]->f = 0;
-            grid[i][j]->g = 0;
-            grid[i][j]->h = 0;
+            grid[i][j]->f = 0.0;
+            grid[i][j]->g = 0.0;
+            grid[i][j]->h = 0.0;
             grid[i][j]->valor = 0;
             grid[i][j]->vizinhos = NULL;
             grid[i][j]->anterior = NULL;
@@ -42,32 +47,32 @@ void initializeGrid(Celula ***grid, int linhas, int colunas)
 
             //Random de  0 a 9
             int random = rand() % 10;
-            if (random <= 0)
-                grid[i][j]->muro = 1;
+            // if (random <= 2)
+            //     grid[i][j]->muro = 1;
 
-            if (i == 0)
-            {
-                grid[i][j]->muro = 1;
-            }
+            // if (i == 0)
+            // {
+            //     grid[i][j]->muro = 1;
+            // }
 
-            if (i == COLUNA - 1)
-            {
-                grid[i][j]->muro = 1;
-            }
+            // if (i == COLUNA - 1)
+            // {
+            //     grid[i][j]->muro = 1;
+            // }
 
-            if (j == 0)
-            {
-                grid[i][j]->muro = 1;
-            }
+            // if (j == 0)
+            // {
+            //     grid[i][j]->muro = 1;
+            // }
 
-            if (j == COLUNA - 1)
-            {
-                grid[i][j]->muro = 1;
-            }
+            // if (j == COLUNA - 1)
+            // {
+            //     grid[i][j]->muro = 1;
+            // }
 
             // colocand a linha
-            if (i == 5)
-                grid[i][j]->muro = 1;
+            // if (i == 5)
+            //     grid[i][j]->muro = 1;
         }
 }
 
@@ -165,8 +170,7 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
         }
 
         listaAberta = removerCelula(listaAberta, atual); // se nao existe lista fechada insira
-        if (!existe(listaFechada, atual))
-            listaFechada = inserirCelula(listaFechada, atual);
+        listaFechada = inserirCelula(listaFechada, atual);
 
         //printf("\nListaAberta: \n");
         //imprimir(listaAberta);
@@ -182,39 +186,28 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
             Celula *vizinhosDoAtual = vizinhanca->c;
             vizinhosDoAtual->valor = 6;
 
-            if (isDestino(vizinhosDoAtual, destino))
-            {
-                printf("\n\n\n!!! VZINHO É O FIM !!!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-            }
             // Se nao existir na lista fechada e nao for um muro
             if ((!existe(listaFechada, vizinhosDoAtual)) && (!vizinhosDoAtual->muro))
             {
                 double tempG = atual->g + heuristic(vizinhosDoAtual, atual);
                 int newPathFind = 0;
 
-                if (existe(listaAberta, vizinhosDoAtual))
+                if (!existe(listaAberta, vizinhosDoAtual))
                 {
-                    if (tempG < vizinhosDoAtual->g)
-                    {
-                        newPathFind = 1;
-                        vizinhosDoAtual->g = tempG;
-                    }
+                    listaAberta = inserirCelula(listaAberta,vizinhosDoAtual);
+                }else if(tempG >= vizinhosDoAtual->g){
+                    vizinhanca = vizinhanca->next;
+                    continue;
                 }
-                else
-                {
-                    newPathFind = 1;
-                    vizinhosDoAtual->g = tempG;
-                    //ele volta pra lista fechado quando cai aqui //
-                    // ele volta pra lista aberta                 //
-                    listaAberta = inserirCelula(listaAberta, vizinhosDoAtual);
-                }
+                
 
-                if (newPathFind)
-                {
+                    vizinhosDoAtual->g = tempG;
                     vizinhosDoAtual->h = heuristic(vizinhosDoAtual, destino);
                     vizinhosDoAtual->f = vizinhosDoAtual->g + vizinhosDoAtual->h;
                     vizinhosDoAtual->anterior = atual;
-                }
+
+                    //printf("\n%d %d %d\n",vizinhosDoAtual->f,vizinhosDoAtual->g,vizinhosDoAtual->h);
+                
             }
             vizinhanca = vizinhanca->next;
         }

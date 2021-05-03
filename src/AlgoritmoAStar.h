@@ -15,7 +15,7 @@
 #define COLUNA 10
 
 int distancia(Ponto a, Ponto b);
-double heuristic(Celula *a, Celula *b);
+int heuristic(Celula *a, Celula *b);
 void adicionarVizinhos(Celula *spot, Celula ***grid, int linhas, int colunas);
 
 void initializeGrid(Celula ***grid, int linhas, int colunas);
