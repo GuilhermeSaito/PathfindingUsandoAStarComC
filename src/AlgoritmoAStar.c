@@ -4,12 +4,10 @@ int distancia(Ponto a, Ponto b)
 {
     return abs(a.x - b.x) + abs(a.y - b.y);
 }
-
 double heuristic(Celula *a, Celula *b)
 {
     return round(distancia((a->p), (b->p)));
 }
-
 void adicionarVizinhos(Celula *spot, Celula ***grid, int colunas, int linhas)
 {
     int i = spot->p.x;
@@ -85,9 +83,9 @@ void drawGrid(Celula ***grid, int linhas, int colunas)
     {
         for (int j = 0; j < COLUNA; j++)
             if (grid[i][j]->muro)
-                printf(" \e[0;33m#\x1b[0m ");
+                printf(" # ");
             else if (grid[i][j]->valor == 3)
-                printf(" \x1b[31m*\x1b[0m ");
+                printf(" * ");
             else
                 printf(" %i ", grid[i][j]->valor);
         printf("\n");
@@ -170,13 +168,13 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
         if (!existe(listaFechada, atual))
             listaFechada = inserirCelula(listaFechada, atual);
 
-        printf("\nListaAberta: \n");
-        imprimir(listaAberta);
-        printf("\nLista Fechada \n");
-        imprimir(listaFechada);
+        //printf("\nListaAberta: \n");
+        //imprimir(listaAberta);
+        //printf("\nLista Fechada \n");
+        //imprimir(listaFechada);
         Lista *vizinhanca = atual->vizinhos;
-        printf("\nVizinhanca de x:%i y:%i \n", atual->p.x, atual->p.y);
-        imprimir(vizinhanca);
+        //printf("\nVizinhanca de x:%i y:%i \n", atual->p.x, atual->p.y);
+        //imprimir(vizinhanca);
         atual->valor = 5;
 
         while (vizinhanca != NULL)

@@ -5,24 +5,6 @@ Lista *criar(void)
     return NULL;
 }
 
-/*Função para inserir um elemento na cabeça de uma lista encadeada!*/
-Lista *inserir(Lista *lista, Ponto elem)
-{
-    Lista *novo = (Lista *)malloc(sizeof(Lista));
-    novo->c->valor = 0;
-    novo->c->p = elem;
-    novo->c->f = 0.0;
-    novo->c->g = 0.0;
-    novo->c->h = 0.0;
-    novo->c->vizinhos = criar();
-    novo->c->anterior = NULL;
-    novo->c->muro = 0;
-
-    novo->next = lista;
-    novo->prev = NULL;
-    return novo;
-}
-
 Lista *inserirCelula(Lista *lista, Celula *c)
 {
     Lista *novo = (Lista *)malloc(sizeof(Lista));
@@ -31,45 +13,6 @@ Lista *inserirCelula(Lista *lista, Celula *c)
     novo->next = lista;
     novo->prev = NULL;
     return novo;
-}
-
-/*Função para remover um elemento da lista encadeada em qq posição!*/
-Lista *remover(Lista *l, Ponto elem)
-{
-    printf("Entro no remover!\n");
-    Lista *prev = NULL, *aux = l;
-    while ((aux != NULL) && (aux->c->p.x != elem.x) && (aux->c->p.y != elem.y))
-    {
-        printf("deveria sair...\n");
-        prev = aux;
-        aux = aux->next;
-    }
-    if (aux == NULL) // Nao achou o elemento
-    {
-        printf("Nao achou o elemento a remover na lista\n");
-        return l;
-    }
-    else if (prev == NULL) // Eh o primeiro elemento
-    {
-        printf("Seria o primeiro elemento!\n");
-        l = l->next;
-        if (l != NULL)
-            l->prev = NULL;
-    }
-    else if (aux->next == NULL) // Eh o ultimo elemento
-    {
-        prev->next = aux->next;
-        aux->prev = NULL;
-    }
-    else
-    {
-        printf("Seria o ultimo ou algum outro elemento!\n");
-        prev->next = aux->next;
-        aux->next->prev = prev;
-    }
-    printf("Ueh\n");
-    free(aux);
-    return l;
 }
 
 Lista *removerCelula(Lista *lista, Celula *c)

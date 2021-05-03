@@ -21,22 +21,6 @@ int main()
     /* Setando os pontos de inicio e destino */
     Celula *inicio, *destino;
 
-<<<<<<< HEAD
-    int rand_x = rand() % (LINHA - 2);
-    int rand_y = rand() % (COLUNA - 2);
-
-    inicio = grid[rand_x][rand_y];
-    unblockInicioDestino(grid, rand_x, rand_y);
-    //unblockInicioDestino(grid, 0, 0);
-    //inicio = grid[0][0];
-    rand_x = rand() % (LINHA - 2);
-    rand_y = rand() % (COLUNA - 2);
-
-    destino = grid[rand_x][rand_y];
-    unblockInicioDestino(grid, rand_x, rand_y);
-    //unblockInicioDestino(grid, COLUNA - 1, LINHA - 1);
-    //destino = grid[COLUNA - 1][LINHA - 1];
-=======
     int rand_x = (rand() % ((LINHA - 2) - 1)) + 1;
     int rand_y = (rand() % ((COLUNA - 2) - 1)) + 1;
 
@@ -55,7 +39,6 @@ int main()
     unblockInicioDestino(grid, LINHA - 2, LINHA - 2);
     destino = grid[LINHA - 2][LINHA - 2];
     grid[LINHA - 2][LINHA - 2]->valor = 8;
->>>>>>> 5b1ddecb3d813a47b501f354c246d4d443bcb770
     Lista *listaAberta = criar();
     Lista *listaFechada = criar();
 

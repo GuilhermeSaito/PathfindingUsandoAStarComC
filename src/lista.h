@@ -30,11 +30,8 @@ typedef struct List
 } Lista;
 
 Lista *criar(void);
-Lista *inserir(Lista *lista, Ponto elem);
 Lista *inserirCelula(Lista *lista, Celula *c);
-Lista *remover(Lista *l, Ponto elem);
 Lista *removerCelula(Lista *lista, Celula *c);
-void ordenaListaF(Lista *l);
 
 int existe(Lista *l, Celula *c);
 Celula *procurarMenor(Lista *l);
