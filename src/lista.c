@@ -30,21 +30,17 @@ Lista *removerCelula(Lista *lista, Celula *c)
         {
             if (anterior == NULL)                
             {
-                //
                 // Remove um elemento do início da lista                  
-                //
                 lista = lista->next; // Atualiza o início da lista
                 free(atual);
                 atual = lista;
                 continue;                
             } else 
             {
-                //
                 // Remove um elemento do meio ou final da lista
-                //
                 anterior->next = atual->next;
                 free(atual);                    
-                atual = anterior; // continua a partir do elemento anterior
+                atual = anterior; 
                 continue;
             };
         };
