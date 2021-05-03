@@ -17,31 +17,41 @@ Lista *inserirCelula(Lista *lista, Celula *c)
 
 Lista *removerCelula(Lista *lista, Celula *c)
 {
-    Lista *prev = NULL, *aux = lista;
-    while ((aux != NULL) && (aux->c->p.x != c->p.x) && (aux->c->p.y != c->p.y))
-    {
-        prev = aux;
-        aux = aux->next;
+    Lista *atual, *anterior;
+    atual = lista;
+    // Lista vazia. Retorna
+    if (lista == NULL)
+        return NULL;    
+
+    anterior = NULL;
+    while (atual)
+    {        
+        if (atual->c->p.x == c->p.x && atual->c->p.y == c->p.y)
+        {
+            if (anterior == NULL)                
+            {
+                //
+                // Remove um elemento do início da lista                  
+                //
+                lista = lista->next; // Atualiza o início da lista
+                free(atual);
+                atual = lista;
+                continue;                
+            } else 
+            {
+                //
+                // Remove um elemento do meio ou final da lista
+                //
+                anterior->next = atual->next;
+                free(atual);                    
+                atual = anterior; // continua a partir do elemento anterior
+                continue;
+            };
+        };
+        // Caminha para o próximo elemento
+        anterior = atual;
+        atual = atual->next;
     }
-    if (aux == NULL) // Nao achou o elemento
-        return lista;
-    if (prev == NULL) // Eh o primeiro elemento
-    {
-        lista = lista->next;
-        if (lista != NULL)
-            lista->prev = NULL;
-    }
-    else if (aux->next == NULL) // Eh o ultimo elemento
-    {
-        prev->next = aux->next;
-        aux->prev = NULL;
-    }
-    else
-    {
-        prev->next = aux->next;
-        aux->next->prev = prev;
-    }
-    free(aux);
     return lista;
 }
 

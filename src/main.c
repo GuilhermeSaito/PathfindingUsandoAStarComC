@@ -36,9 +36,9 @@ int main()
     // destino = grid[rand_x][rand_y];
     // unblockInicioDestino(grid, rand_x, rand_y);
     // grid[rand_x][rand_y]->valor = 8;
-    unblockInicioDestino(grid, LINHA - 2, LINHA - 2);
-    destino = grid[LINHA - 2][LINHA - 2];
-    grid[LINHA - 2][LINHA - 2]->valor = 8;
+    unblockInicioDestino(grid, LINHA - 2, COLUNA - 2);
+    destino = grid[LINHA - 2][COLUNA - 2];
+    grid[LINHA - 2][COLUNA - 2]->valor = 8;
     Lista *listaAberta = criar();
     Lista *listaFechada = criar();
 

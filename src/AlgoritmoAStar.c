@@ -1,5 +1,12 @@
 #include "AlgoritmoAStar.h"
-
+#define KNRM "\x1B[0m"
+#define KRED "\x1B[31m"
+#define KGRN "\x1B[32m"
+#define KYEL "\x1B[33m"
+#define KBLU "\x1B[34m"
+#define KMAG "\x1B[35m"
+#define KCYN "\x1B[36m"
+#define KWHT "\x1B[37m"
 int distancia(Ponto a, Ponto b)
 {
     int d = abs(a.x - b.x) + abs(a.y - b.y);
@@ -37,9 +44,9 @@ void initializeGrid(Celula ***grid, int linhas, int colunas)
             grid[i][j] = (Celula *)malloc(sizeof(Celula));
             grid[i][j]->p.x = i;
             grid[i][j]->p.y = j;
-            grid[i][j]->f = 0.0;
-            grid[i][j]->g = 0.0;
-            grid[i][j]->h = 0.0;
+            grid[i][j]->f = 0;
+            grid[i][j]->g = 0;
+            grid[i][j]->h = 0;
             grid[i][j]->valor = 0;
             grid[i][j]->vizinhos = NULL;
             grid[i][j]->anterior = NULL;
@@ -47,31 +54,31 @@ void initializeGrid(Celula ***grid, int linhas, int colunas)
 
             //Random de  0 a 9
             int random = rand() % 10;
-            // if (random <= 2)
-            //     grid[i][j]->muro = 1;
+            if (random <= 2)
+                grid[i][j]->muro = 1;
 
-            // if (i == 0)
-            // {
-            //     grid[i][j]->muro = 1;
-            // }
+            if (i == 0)
+            {
+                grid[i][j]->muro = 1;
+            }
 
-            // if (i == COLUNA - 1)
-            // {
-            //     grid[i][j]->muro = 1;
-            // }
+            if (i == COLUNA - 1)
+            {
+                grid[i][j]->muro = 1;
+            }
 
-            // if (j == 0)
-            // {
-            //     grid[i][j]->muro = 1;
-            // }
+            if (j == 0)
+            {
+                grid[i][j]->muro = 1;
+            }
 
-            // if (j == COLUNA - 1)
-            // {
-            //     grid[i][j]->muro = 1;
-            // }
+            if (j == COLUNA - 1)
+            {
+                grid[i][j]->muro = 1;
+            }
 
-            // colocand a linha
-            // if (i == 5)
+            //colocand a linha
+            // if (j == 5)
             //     grid[i][j]->muro = 1;
         }
 }
@@ -88,9 +95,11 @@ void drawGrid(Celula ***grid, int linhas, int colunas)
     {
         for (int j = 0; j < COLUNA; j++)
             if (grid[i][j]->muro)
-                printf(" # ");
+                printf(" %s#%s ", KRED, KNRM);
             else if (grid[i][j]->valor == 3)
-                printf(" * ");
+                printf(" %s*%s ", KGRN, KNRM);
+            else if(grid[i][j]->valor == 0)
+                printf("   ");
             else
                 printf(" %i ", grid[i][j]->valor);
         printf("\n");
@@ -145,7 +154,7 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
         setNumberListaAberta(listaAberta);
         setNumberListaFechada(listaFechada);
 
-        //system("clear");
+        system("clear");
         usleep(2000);
         drawGrid(grid, LINHA, COLUNA);
         if (isDestino(atual, destino))
@@ -164,23 +173,31 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
                         grid[i][j]->valor = 0;
                 printf("\n");
             }
-
+            system("clear");
+            usleep(2000);
             drawGrid(grid, LINHA, COLUNA);
             return 1;
         }
-
-        listaAberta = removerCelula(listaAberta, atual); // se nao existe lista fechada insira
-        listaFechada = inserirCelula(listaFechada, atual);
-
-        //printf("\nListaAberta: \n");
+        //printf("\nLista Aberta antes:\n");
         //imprimir(listaAberta);
-        //printf("\nLista Fechada \n");
-        //imprimir(listaFechada);
-        Lista *vizinhanca = atual->vizinhos;
-        //printf("\nVizinhanca de x:%i y:%i \n", atual->p.x, atual->p.y);
-        //imprimir(vizinhanca);
-        atual->valor = 5;
+        listaAberta = removerCelula(listaAberta, atual); // se nao existe lista fechada insira
+        //printf("X:%i Y:%i \n",atual->p.x,atual->p.y);
+        //printf("\nLista Aberta depois:\n");
+        //imprimir(listaAberta);
 
+        if (existe(listaAberta, atual))
+        {
+            printf("\nERROR FOUND 1!\n");
+            return 0;
+        }
+        listaFechada = inserirCelula(listaFechada, atual);
+        if (!existe(listaFechada, atual))
+        {
+            printf("\nERROR FOUND 2!\n");
+            return 0;
+        }
+
+        Lista *vizinhanca = atual->vizinhos;
         while (vizinhanca != NULL)
         {
             Celula *vizinhosDoAtual = vizinhanca->c;
@@ -189,25 +206,19 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
             // Se nao existir na lista fechada e nao for um muro
             if ((!existe(listaFechada, vizinhosDoAtual)) && (!vizinhosDoAtual->muro))
             {
-                double tempG = atual->g + heuristic(vizinhosDoAtual, atual);
-                int newPathFind = 0;
-
+                int tempG = atual->g + heuristic(vizinhosDoAtual, atual);
                 if (!existe(listaAberta, vizinhosDoAtual))
+                    listaAberta = inserirCelula(listaAberta, vizinhosDoAtual);
+                else if (tempG >= vizinhosDoAtual->g)
                 {
-                    listaAberta = inserirCelula(listaAberta,vizinhosDoAtual);
-                }else if(tempG >= vizinhosDoAtual->g){
                     vizinhanca = vizinhanca->next;
                     continue;
                 }
-                
 
-                    vizinhosDoAtual->g = tempG;
-                    vizinhosDoAtual->h = heuristic(vizinhosDoAtual, destino);
-                    vizinhosDoAtual->f = vizinhosDoAtual->g + vizinhosDoAtual->h;
-                    vizinhosDoAtual->anterior = atual;
-
-                    //printf("\n%d %d %d\n",vizinhosDoAtual->f,vizinhosDoAtual->g,vizinhosDoAtual->h);
-                
+                vizinhosDoAtual->g = tempG;
+                vizinhosDoAtual->h = heuristic(vizinhosDoAtual, destino);
+                vizinhosDoAtual->f = vizinhosDoAtual->g + vizinhosDoAtual->h;
+                vizinhosDoAtual->anterior = atual;
             }
             vizinhanca = vizinhanca->next;
         }
