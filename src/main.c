@@ -1,50 +1,48 @@
+/**
+ * 
+ *  Curso: Engenharia da Computação - Universidade Técnologica Federal do Paraná
+ *  Tema: Pathfinding A*
+ *  Autores: Matheus de Camargo Marques , Guilherme Saito , Carolina Fernandes
+ * 
+ *  @link Repositorio https://github.com/GuilhermeSaito/PathfindingUsandoAStarComC
+ *  @copyright - Livre para fim didáticos.
+ */
+
 #include "AlgoritmoAStar.h"
+
+
 
 int main()
 {
     srand(time(NULL));
 
-    int i, j;
-    Celula ***grid;
+    Celula *inicio, *destino;
+    Celula ***grid = makeGrid(LINHA,COLUNA);
 
-    grid = (Celula ***)malloc(LINHA * sizeof(Celula **));
-    for (i = 0; i < COLUNA; i++)
-        grid[i] = (Celula **)malloc(COLUNA * sizeof(Celula *));
 
     initializeGrid(grid, LINHA, COLUNA);
-
-    // colocando os vizinhos no spot
-    for (i = 0; i < LINHA; i++)
-        for (j = 0; j < COLUNA; j++)
-            adicionarVizinhos(grid[i][j], grid, LINHA, COLUNA);
-
+    initializeVizinhanca(grid, LINHA, COLUNA);
+    
     /* Setando os pontos de inicio e destino */
-    Celula *inicio, *destino;
+    int x,y;
+    x = y = 1;
+    unblockInicioDestino(grid, x, y);
+    inicio = grid[x][y];
+    
+    
+    x = LINHA - 2; y = COLUNA - 2;
+    unblockInicioDestino(grid,x,y);
+    destino = grid[x][y];
+    
 
-    int rand_x = (rand() % ((LINHA - 2) - 1)) + 1;
-    int rand_y = (rand() % ((COLUNA - 2) - 1)) + 1;
-
-    //inicio = grid[rand_x][rand_y];
-    //unblockInicioDestino(grid, rand_x, rand_y);
-    //grid[rand_x][rand_y]->valor = 4;
-    unblockInicioDestino(grid, 1, 1);
-    inicio = grid[1][1];
-    grid[1][1]->valor = 4;
-    rand_x = (rand() % ((LINHA - 2) - 1)) + 1;
-    rand_y = (rand() % ((COLUNA - 2) - 1)) + 1;
-
-    // destino = grid[rand_x][rand_y];
-    // unblockInicioDestino(grid, rand_x, rand_y);
-    // grid[rand_x][rand_y]->valor = 8;
-    unblockInicioDestino(grid, LINHA - 2, COLUNA - 2);
-    destino = grid[LINHA - 2][COLUNA - 2];
-    grid[LINHA - 2][COLUNA - 2]->valor = 8;
+    /* Inciamos lista aberta e fechada */
     Lista *listaAberta = criar();
     Lista *listaFechada = criar();
 
+    /* Lista aberta não inicia vazia*/
     listaAberta = inserirCelula(listaAberta, inicio);
 
-    // O inicio ja estah na listaAberta!
+    
     if (pathFind(grid, inicio, destino, listaAberta, listaFechada))
         printf("Chegamos no destino!\n");
     else

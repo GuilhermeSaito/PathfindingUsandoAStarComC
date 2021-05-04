@@ -1,3 +1,13 @@
+/**
+ * 
+ *  Curso: Engenharia da Computação - Universidade Técnologica Federal do Paraná
+ *  Tema: Pathfinding A*
+ *  Autores: Matheus de Camargo Marques , Guilherme Saito , Carolina Fernandes
+ * 
+ *  @link Repositorio https://github.com/GuilhermeSaito/PathfindingUsandoAStarComC
+ *  @copyright - Livre para fim didáticos.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
