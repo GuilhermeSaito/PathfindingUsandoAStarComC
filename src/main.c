@@ -34,7 +34,7 @@ int main()
     unblockInicioDestino(grid,x,y);
     destino = grid[x][y];
     
-
+    
     /* Inciamos lista aberta e fechada */
     Lista *listaAberta = criar();
     Lista *listaFechada = criar();

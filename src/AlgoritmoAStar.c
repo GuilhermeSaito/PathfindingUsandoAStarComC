@@ -17,6 +17,7 @@
 #define KMAG "\x1B[35m"
 #define KCYN "\x1B[36m"
 #define KWHT "\x1B[37m"
+#define CLEAR "cls"
 
 Celula ***makeGrid(int linha, int coluna)
 {
@@ -73,12 +74,24 @@ void initializeGrid(Celula ***grid, int linhas, int colunas)
             grid[i][j] = (Celula *)malloc(sizeof(Celula));
             grid[i][j]->p.x = i;
             grid[i][j]->p.y = j;
+            //Nossos Pesos
             grid[i][j]->f = 0;
             grid[i][j]->g = 0;
             grid[i][j]->h = 0;
+
+            //Explicação de custos
+            grid[i][j]->f = grid[i][j]->g + grid[i][j]->h;
+
+            //Serve mais para testes
             grid[i][j]->valor = 0;
+
+            //É IMPORTANTE
             grid[i][j]->vizinhos = NULL;
+
+            //Heap 
             grid[i][j]->anterior = NULL;
+
+
             grid[i][j]->muro = 0;
 
             //Random de  0 a 9
@@ -86,6 +99,8 @@ void initializeGrid(Celula ***grid, int linhas, int colunas)
             if (random <= 2)
                 grid[i][j]->muro = 1;
 
+
+            // Extrimidade colamos muros
             if (i == 0)
             {
                 grid[i][j]->muro = 1;
@@ -221,8 +236,8 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
         setNumberListaAberta(listaAberta);
         setNumberListaFechada(listaFechada);
 
-        system("clear");
-        usleep(2000);
+        system(CLEAR);
+        //usleep(2000);
         drawGrid(grid, LINHA, COLUNA);
         if (isDestino(atual, destino))
         {
@@ -240,8 +255,8 @@ int pathFind(Celula ***grid, Celula *inicio, Celula *destino, Lista *listaAberta
                         grid[i][j]->valor = 0;
                 printf("\n");
             }
-            system("clear");
-            usleep(2000);
+            system(CLEAR);
+            //usleep(2000);
             drawGrid(grid, LINHA, COLUNA);
             return 1;
         }
